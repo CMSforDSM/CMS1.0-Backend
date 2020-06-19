@@ -8,7 +8,8 @@
 ### GIT Rule
 
 * `Git Flow` 전략을 Git Branch 전략으로 채택.
-* branch naming rule : `CMS-이슈번호 [Method] content`
+* branch naming rule : `[domain name]-[feature info]`
+* commit message rule : `CMS-이슈번호 [Method] content`
 
 
 
