@@ -5,6 +5,7 @@ import com.cms.api.domain.club.domain.Club;
 import com.cms.api.domain.comment.domain.AchievementComment;
 import com.cms.api.domain.comment.domain.RecruitmentComment;
 import com.cms.api.domain.recruitment.domain.Recruitment;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class User {
     @Id

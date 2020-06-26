@@ -2,6 +2,7 @@ package com.cms.api.domain.achievement.domain;
 
 import com.cms.api.domain.comment.domain.AchievementComment;
 import com.cms.api.domain.model.Post;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "achievement_id"))
 public class Achievement extends Post {

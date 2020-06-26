@@ -2,6 +2,7 @@ package com.cms.api.domain.comment.domain;
 
 import com.cms.api.domain.achievement.domain.Achievement;
 import com.cms.api.domain.model.Comment;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import javax.persistence.OneToOne;
 
 @AllArgsConstructor
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class AchievementComment extends Comment {
 

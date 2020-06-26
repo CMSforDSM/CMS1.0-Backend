@@ -1,13 +1,14 @@
 package com.cms.api.domain.resume.domain;
 
 import com.cms.api.domain.user.domain.User;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Resume {
 
