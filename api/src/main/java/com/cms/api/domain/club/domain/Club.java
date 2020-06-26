@@ -20,9 +20,9 @@ public class Club {
     private String introduce;
 
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "leader")
     private User leader;
 
-    @OneToMany(mappedBy = "club_name")
+    @OneToMany(mappedBy = "club")
     private List<User> members = new ArrayList<>();
 }
