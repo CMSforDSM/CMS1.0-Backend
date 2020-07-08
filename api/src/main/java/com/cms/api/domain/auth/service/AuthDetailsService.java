@@ -17,6 +17,6 @@ public class AuthDetailsService implements UserDetailsService {
     public AuthDetails loadUserByUsername(String studentNo) throws UsernameNotFoundException {
         return userRepository.findByStudentNumber(studentNo)
                 .map(AuthDetails::new)
-                .orElseThrow(() -> new UsernameNotFoundException(""));
+                .orElseThrow(() -> new UsernameNotFoundException("user not fond"));
     }
 }
