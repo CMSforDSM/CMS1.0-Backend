@@ -2,6 +2,7 @@ package com.cms.api.domain.auth.service;
 
 import com.cms.api.domain.auth.dto.LoginRequestDto;
 import com.cms.api.domain.auth.dto.TokenResponseDto;
+import com.cms.api.domain.auth.exception.InvalidTokenException;
 import com.cms.api.domain.auth.exception.UserNotFoundException;
 import com.cms.api.domain.user.dao.UserRepository;
 import com.cms.api.domain.user.domain.User;
@@ -26,6 +27,13 @@ public class AuthService {
                 .orElseThrow(UserNotFoundException::new);
 
         return responseToken(user.getStudentNumber());
+    }
+
+    public TokenResponseDto refreshToken(String refreshToken) {
+        if(!jwtTokenProvider.validateToken(refreshToken, "refresh_token")) throw new InvalidTokenException();
+        String studentNo = jwtTokenProvider.getUserStudentNo(refreshToken);
+
+        return responseToken(studentNo);
     }
 
     private TokenResponseDto responseToken(String studentNo) {
