@@ -27,7 +27,7 @@ public class User {
     @Column(nullable = false, length = 20)
     private String name;
 
-    @Column(name = "student_number", nullable = false)
+    @Column(name = "student_number", nullable = false, unique = true)
     private String studentNumber;
 
     @ManyToOne
@@ -51,12 +51,11 @@ public class User {
     private List<RecruitmentComment> recruitmentComments = new ArrayList<>();
 
     @Builder
-    public User(String id, String password, String name, String studentNumber, Club club, Role role) {
+    public User(String id, String password, String name, String studentNumber, Role role) {
         this.id = id;
         this.password = password;
         this.name = name;
         this.studentNumber = studentNumber;
-        this.club = club;
         this.role = role;
     }
 
