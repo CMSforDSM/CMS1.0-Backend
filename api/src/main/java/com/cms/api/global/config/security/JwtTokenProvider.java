@@ -66,7 +66,7 @@ public class JwtTokenProvider {
     }
 
     public String getUserStudentNo(String token) {
-        return Jwts.parser().setSigningKey(secretKey.getBytes())
+        return Jwts.parser().setSigningKey(secretKey)
                 .parseClaimsJws(token).getBody().getSubject();
     }
 
@@ -77,8 +77,7 @@ public class JwtTokenProvider {
     public boolean validateToken(String token, String type) {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-            return claims.getBody().getExpiration().after(new Date()) &&
-                    claims.getBody().get("type") == type;
+            return claims.getBody().getExpiration().after(new Date()) && claims.getBody().get("type").equals(type);
         } catch (Exception e) {
             return false;
         }
