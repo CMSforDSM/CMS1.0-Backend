@@ -60,7 +60,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public Authentication getAuthentication(String token) {
+    Authentication getAuthentication(String token) {
         AuthDetails authDetails = authDetailsService.loadUserByUsername(this.getUserStudentNo(token));
         return new UsernamePasswordAuthenticationToken(authDetails, "", authDetails.getAuthorities());
     }
@@ -70,7 +70,7 @@ public class JwtTokenProvider {
                 .parseClaimsJws(token).getBody().getSubject();
     }
 
-    public String resolveToken(HttpServletRequest request) {
+    String resolveToken(HttpServletRequest request) {
         return request.getHeader(this.header);
     }
 
