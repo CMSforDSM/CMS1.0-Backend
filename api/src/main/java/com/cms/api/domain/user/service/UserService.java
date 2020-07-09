@@ -22,8 +22,6 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    private final ClubRepository clubRepository;
-
     private final PasswordEncoder passwordEncoder;
 
     public User join(UserJoinRequestDto requestDto) {
@@ -41,8 +39,8 @@ public class UserService {
     }
 
     public UserInfoResponseDto getMyInfo() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepository.findByStudentNumber(username)
+        String studentNo = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByStudentNumber(studentNo)
                 .map(user -> {
                     String clubName = (user.getClub() != null) ? user.getClub().getClubName() : null;
                     return UserInfoResponseDto.builder()
@@ -55,5 +53,16 @@ public class UserService {
                             .build();
                 })
                 .orElseThrow(UserNotFoundException::new);
+    }
+
+    public void updateMyInfo(UserInfoUpdateRequestDto requestDto) {
+        String studentNo = SecurityContextHolder.getContext().getAuthentication().getName();
+        String password = (requestDto.getPassword() != null) ? passwordEncoder.encode(requestDto.getPassword()) : null;
+
+        userRepository.findByStudentNumber(studentNo)
+                .map(user -> {
+                    user.reviseInfo(password, requestDto.getIntroduce());
+                    return true;
+                }).orElseThrow(UserNotFoundException::new);
     }
 }
