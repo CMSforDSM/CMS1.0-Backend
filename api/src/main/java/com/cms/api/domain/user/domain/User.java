@@ -67,4 +67,9 @@ public class User {
     public String getRoleKey() {
         return this.role.getKey();
     }
+
+    public void reviseInfo(String password, String introduce) {
+        if(password != null) this.password = password;
+        if(introduce != null) this.introduce = introduce;
+    }
 }
