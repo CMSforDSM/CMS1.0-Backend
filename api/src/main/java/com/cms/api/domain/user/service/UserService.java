@@ -21,12 +21,12 @@ public class UserService {
 
         return userRepository.save(
                 User.builder()
-                .id(requestDto.getId())
-                .name(requestDto.getName())
-                .password(password)
-                .studentNumber(requestDto.getStudentNumber())
-                .role(Role.valueOf(requestDto.getRole()))
-                .build()
+                        .id(requestDto.getId())
+                        .name(requestDto.getName())
+                        .password(password)
+                        .studentNumber(requestDto.getStudentNumber())
+                        .role(Role.valueOf(requestDto.getRole()))
+                        .build()
         );
     }
 }
