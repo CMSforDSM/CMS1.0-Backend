@@ -57,6 +57,7 @@ public class User {
         this.name = name;
         this.studentNumber = studentNumber;
         this.role = role;
+        this.club = null;
     }
 
     public String getRoleKey() {
