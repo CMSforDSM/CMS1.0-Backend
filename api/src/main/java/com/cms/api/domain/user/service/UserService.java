@@ -52,6 +52,7 @@ public class UserService {
                 .id(user.getId())
                 .name(user.getName())
                 .studentNumber(user.getStudentNumber())
+                .introduce(user.getIntroduce())
                 .club(clubName)
                 .role(user.getRoleKey())
                 .build();

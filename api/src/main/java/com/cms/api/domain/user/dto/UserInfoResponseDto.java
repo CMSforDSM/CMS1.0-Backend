@@ -14,6 +14,7 @@ public class UserInfoResponseDto {
     private String id;
     private String name;
     private String studentNumber;
+    private String introduce;
     private String role;
     private String club;
 }
