@@ -30,6 +30,9 @@ public class User {
     @Column(name = "student_number", nullable = false, unique = true)
     private String studentNumber;
 
+    @Column(length = 30)
+    private String introduce;
+
     @ManyToOne
     @JoinColumn(name = "club_name")
     private Club club;
@@ -56,10 +59,17 @@ public class User {
         this.password = password;
         this.name = name;
         this.studentNumber = studentNumber;
+        this.introduce = "";
         this.role = role;
+        this.club = null;
     }
 
     public String getRoleKey() {
         return this.role.getKey();
+    }
+
+    public void reviseInfo(String password, String introduce) {
+        if(password != null) this.password = password;
+        if(introduce != null) this.introduce = introduce;
     }
 }
