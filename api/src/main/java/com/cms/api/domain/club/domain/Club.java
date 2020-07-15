@@ -32,6 +32,7 @@ public class Club {
     public Club(String clubName, User leader) {
         this.clubName = clubName;
         this.leader = leader;
+        this.introduce = "";
     }
 
 }
