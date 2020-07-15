@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ public class ClubController {
     private final ClubService clubService;
 
     @PostMapping
+    @ResponseStatus(value = HttpStatus.CREATED)
     public String createClub(@RequestBody Map<String, String> clubName) {
         return clubService.createClub(clubName.get("club_name"));
     }
@@ -40,9 +42,18 @@ public class ClubController {
     }
 
     @PostMapping("/{club_name}/members")
+    @ResponseStatus(value = HttpStatus.CREATED)
     public void addClubMember(@PathVariable("club_name") String clubName,
                               @RequestBody Map<String, String> studentNo) {
         clubService.addClubMember(clubName, studentNo.get("student_number"));
+    }
+
+    @PatchMapping("/{club_name}/members")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    @Transactional
+    public void changeLeader(@PathVariable("club_name") String clubName,
+                             @RequestBody Map<String, String> studentNo) {
+        clubService.changeClubLeader(clubName, studentNo.get("student_number"));
     }
 
 }
