@@ -9,6 +9,7 @@ import com.cms.api.domain.user.domain.User;
 import com.cms.api.domain.user.dto.UserInfoResponseDto;
 import com.cms.api.domain.user.dto.UserInfoUpdateRequestDto;
 import com.cms.api.domain.user.dto.UserJoinRequestDto;
+import com.cms.api.domain.user.exception.UserDuplicateException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,6 +27,8 @@ public class UserService {
 
     public User join(UserJoinRequestDto requestDto) {
         String password = passwordEncoder.encode(requestDto.getPassword());
+        if(userRepository.findByStudentNumber(requestDto.getStudentNumber()).isPresent())
+            throw new UserDuplicateException();
 
         return userRepository.save(
                 User.builder()

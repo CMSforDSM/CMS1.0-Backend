@@ -19,7 +19,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/")
+    @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public void join(@RequestBody UserJoinRequestDto requestDto) {
         userService.join(requestDto);
