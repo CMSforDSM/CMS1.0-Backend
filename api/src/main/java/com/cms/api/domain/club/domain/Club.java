@@ -40,12 +40,12 @@ public class Club {
         this.introduce = introduce;
     }
 
-    public void addMember(User member) {
-        this.members.add(member);
+    public boolean checkMemberOrLeader(User member) {
+        return this.members.contains(member) || this.leader.equals(member);
     }
 
     public boolean checkMember(User member) {
-        return this.members.contains(member) || this.leader.equals(member);
+        return this.members.contains(member);
     }
 
     public List<String> getMembers() {
@@ -54,6 +54,10 @@ public class Club {
                     return member.getStudentNumber() + "-" + member.getName();
                 })
                 .collect(Collectors.toList());
+    }
+
+    public void changeLeader(User user) {
+        this.leader = user;
     }
 
 }
