@@ -35,4 +35,8 @@ public class Club {
         this.introduce = "";
     }
 
+    public void updateIntro(String introduce) {
+        this.introduce = introduce;
+    }
+
 }
