@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -45,6 +46,14 @@ public class Club {
 
     public boolean checkMember(User member) {
         return this.members.contains(member) || this.leader.equals(member);
+    }
+
+    public List<String> getMembers() {
+        return this.members.stream()
+                .map(member -> {
+                    return member.getStudentNumber() + "-" + member.getName();
+                })
+                .collect(Collectors.toList());
     }
 
 }
