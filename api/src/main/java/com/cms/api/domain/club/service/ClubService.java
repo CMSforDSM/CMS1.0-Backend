@@ -4,6 +4,7 @@ import com.cms.api.domain.auth.exception.UserNotFoundException;
 import com.cms.api.domain.club.dao.ClubRepository;
 import com.cms.api.domain.club.domain.Club;
 import com.cms.api.domain.club.dto.ClubListResponseDto;
+import com.cms.api.domain.club.dto.ClubResponseDto;
 import com.cms.api.domain.club.exception.AlreadyClubMemberException;
 import com.cms.api.domain.club.exception.ClubDuplicateException;
 import com.cms.api.domain.club.exception.ClubNotFoundException;
@@ -50,6 +51,18 @@ public class ClubService {
                             .build();
                 })
                 .collect(Collectors.toList());
+    }
+
+    public ClubResponseDto getClub(String clubName) {
+        Club club = clubRepository.findById(clubName).orElseThrow(ClubNotFoundException::new);
+        User leader = club.getLeader();
+
+        return ClubResponseDto.builder()
+                .club_name(club.getClubName())
+                .introduce(club.getIntroduce())
+                .leader(leader.getStudentNumber() + "-" + leader.getName())
+                .members(club.getMembers())
+                .build();
     }
 
     public void updateClubIntro(String clubName, String introduce) {
