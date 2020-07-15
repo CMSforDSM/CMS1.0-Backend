@@ -72,4 +72,9 @@ public class User {
         if(password != null) this.password = password;
         if(introduce != null) this.introduce = introduce;
     }
+
+    public void changeClub(Club club) {
+        this.club = club;
+    }
+
 }
