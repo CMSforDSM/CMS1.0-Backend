@@ -46,8 +46,7 @@ public class ClubService {
                     return ClubListResponseDto.builder()
                             .club_name(club.getClubName())
                             .introduce(club.getIntroduce())
-                            .leader_name(club.getLeader().getName())
-                            .leader_number(club.getLeader().getStudentNumber())
+                            .leader(club.getLeader().getStudentNumber() + "-" + club.getLeader().getName())
                             .build();
                 })
                 .collect(Collectors.toList());

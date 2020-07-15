@@ -13,6 +13,5 @@ public class ClubListResponseDto {
 
     private String club_name;
     private String introduce;
-    private String leader_name;
-    private String leader_number;
+    private String leader;
 }
