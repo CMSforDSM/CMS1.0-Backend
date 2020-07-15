@@ -3,6 +3,7 @@ package com.cms.api.domain.club.controller;
 import com.cms.api.domain.club.dto.ClubListResponseDto;
 import com.cms.api.domain.club.service.ClubService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,4 +25,12 @@ public class ClubController {
     public List<ClubListResponseDto> getClubs() {
         return clubService.getClubs();
     }
+
+    @PatchMapping("/{club_name}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void updateClubIntro(@PathVariable("club_name") String clubName,
+                                @RequestBody Map<String, String> introduce) {
+        clubService.updateClubIntro(clubName, introduce.get("introduce"));
+    }
+
 }
