@@ -1,6 +1,7 @@
 package com.cms.api.domain.club.controller;
 
 import com.cms.api.domain.club.dto.ClubListResponseDto;
+import com.cms.api.domain.club.dto.ClubResponseDto;
 import com.cms.api.domain.club.service.ClubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,11 @@ public class ClubController {
     @GetMapping
     public List<ClubListResponseDto> getClubs() {
         return clubService.getClubs();
+    }
+
+    @GetMapping("/{club_name}")
+    public ClubResponseDto getClub(@PathVariable("club_name") String clubName) {
+        return clubService.getClub(clubName);
     }
 
     @PatchMapping("/{club_name}")
