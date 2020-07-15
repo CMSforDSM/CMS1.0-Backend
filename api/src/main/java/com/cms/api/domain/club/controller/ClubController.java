@@ -56,4 +56,11 @@ public class ClubController {
         clubService.changeClubLeader(clubName, studentNo.get("student_number"));
     }
 
+    @DeleteMapping("/{club_name}/members")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void expelMember(@PathVariable("club_name") String clubName,
+                            @RequestParam String student_number) {
+        clubService.expelMember(clubName, student_number);
+    }
+
 }
