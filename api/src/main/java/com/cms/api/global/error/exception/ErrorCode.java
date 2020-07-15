@@ -15,7 +15,8 @@ public enum ErrorCode {
 
     // Club
     CLUB_NOT_FOUND(400, "C001", "Club Not Found"),
-    CLUB_DUPLICATE(409, "C002", "Club Duplicated");
+    CLUB_DUPLICATE(409, "C002", "Club Duplicated"),
+    NOT_CLUB_LEADER(403, "C003", "Not a club leader");
 
     private final int status;
     private final String code;
