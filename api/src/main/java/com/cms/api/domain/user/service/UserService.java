@@ -27,7 +27,8 @@ public class UserService {
 
     public User join(UserJoinRequestDto requestDto) {
         String password = passwordEncoder.encode(requestDto.getPassword());
-        if(userRepository.findByStudentNumber(requestDto.getStudentNumber()).isPresent())
+        if(userRepository.findByStudentNumber(requestDto.getStudentNumber()).isPresent() ||
+            userRepository.findById(requestDto.getId()).isPresent())
             throw new UserDuplicateException();
 
         return userRepository.save(
