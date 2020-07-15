@@ -33,4 +33,10 @@ public class ClubController {
         clubService.updateClubIntro(clubName, introduce.get("introduce"));
     }
 
+    @PostMapping("/{club_name}/members")
+    public void addClubMember(@PathVariable("club_name") String clubName,
+                              @RequestBody Map<String, String> studentNo) {
+        clubService.addClubMember(clubName, studentNo.get("student_number"));
+    }
+
 }
