@@ -5,10 +5,7 @@ import com.cms.api.domain.club.dao.ClubRepository;
 import com.cms.api.domain.club.domain.Club;
 import com.cms.api.domain.club.dto.ClubListResponseDto;
 import com.cms.api.domain.club.dto.ClubResponseDto;
-import com.cms.api.domain.club.exception.AlreadyClubMemberException;
-import com.cms.api.domain.club.exception.ClubDuplicateException;
-import com.cms.api.domain.club.exception.ClubNotFoundException;
-import com.cms.api.domain.club.exception.NotClubLeaderException;
+import com.cms.api.domain.club.exception.*;
 import com.cms.api.domain.user.dao.UserRepository;
 import com.cms.api.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -79,12 +76,30 @@ public class ClubService {
         Club club = clubRepository.findById(clubName).orElseThrow(ClubNotFoundException::new);
         User user = userRepository.findByStudentNumber(studentNo).orElseThrow(UserNotFoundException::new);
 
-        if(club.checkMember(user)) throw new AlreadyClubMemberException();
+        if(club.checkMemberOrLeader(user)) throw new AlreadyClubMemberException();
 
         user.changeClub(club);
         userRepository.save(user);
-        club.addMember(user);
+    }
+
+    public void changeClubLeader(String clubName, String studentNo) {
+        Club club = clubRepository.findById(clubName).orElseThrow(ClubNotFoundException::new);
+        User user = userRepository.findByStudentNumber(studentNo).orElseThrow(UserNotFoundException::new);
+
+        if(!club.checkMember(user)) throw new NotClubMemberException();
+        User leader = userRepository.findByStudentNumber(club.getLeader().getStudentNumber())
+                .orElseThrow(UserNotFoundException::new);
+
+        user.changeClub(null);
+        userRepository.save(user);
+        club.changeLeader(user);
         clubRepository.save(club);
+
+        leader.changeClub(null);
+        userRepository.save(leader);
+        leader.changeClub(club);
+        userRepository.save(leader);
+
     }
 
     private void checkLeader(Club club) {
