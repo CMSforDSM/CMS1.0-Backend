@@ -102,6 +102,17 @@ public class ClubService {
 
     }
 
+    public void expelMember(String clubName, String studentNo) {
+        Club club = clubRepository.findById(clubName).orElseThrow(ClubNotFoundException::new);
+        checkLeader(club);
+
+        User user = userRepository.findByStudentNumber(studentNo).orElseThrow(UserNotFoundException::new);
+        if(!club.checkMember(user)) throw new NotClubMemberException();
+
+        user.changeClub(null);
+        userRepository.save(user);
+    }
+
     private void checkLeader(Club club) {
         String studentNo = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByStudentNumber(studentNo).orElseThrow(UserNotFoundException::new);
