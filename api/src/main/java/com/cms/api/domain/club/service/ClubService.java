@@ -5,6 +5,8 @@ import com.cms.api.domain.club.dao.ClubRepository;
 import com.cms.api.domain.club.domain.Club;
 import com.cms.api.domain.club.dto.ClubListResponseDto;
 import com.cms.api.domain.club.exception.ClubDuplicateException;
+import com.cms.api.domain.club.exception.ClubNotFoundException;
+import com.cms.api.domain.club.exception.NotClubLeaderException;
 import com.cms.api.domain.user.dao.UserRepository;
 import com.cms.api.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -48,6 +50,22 @@ public class ClubService {
                             .build();
                 })
                 .collect(Collectors.toList());
+    }
+
+    public void updateClubIntro(String clubName, String introduce) {
+        Club club = clubRepository.findById(clubName).orElseThrow(ClubNotFoundException::new);
+
+        checkLeader(club);
+
+        club.updateIntro(introduce);
+        clubRepository.save(club);
+    }
+
+    private void checkLeader(Club club) {
+        String studentNo = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByStudentNumber(studentNo).orElseThrow(UserNotFoundException::new);
+
+        if(!user.equals(club.getLeader())) throw new NotClubLeaderException();
     }
 
 }
