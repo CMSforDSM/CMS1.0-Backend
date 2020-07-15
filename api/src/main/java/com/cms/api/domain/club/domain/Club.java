@@ -2,6 +2,7 @@ package com.cms.api.domain.club.domain;
 
 import com.cms.api.domain.user.domain.User;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,4 +27,11 @@ public class Club {
 
     @OneToMany(mappedBy = "club")
     private List<User> members = new ArrayList<>();
+
+    @Builder
+    public Club(String clubName, User leader) {
+        this.clubName = clubName;
+        this.leader = leader;
+    }
+
 }
