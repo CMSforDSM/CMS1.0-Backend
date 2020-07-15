@@ -39,4 +39,12 @@ public class Club {
         this.introduce = introduce;
     }
 
+    public void addMember(User member) {
+        this.members.add(member);
+    }
+
+    public boolean checkMember(User member) {
+        return this.members.contains(member) || this.leader.equals(member);
+    }
+
 }
