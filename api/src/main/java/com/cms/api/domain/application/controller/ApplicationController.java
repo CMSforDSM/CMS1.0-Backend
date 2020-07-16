@@ -27,11 +27,11 @@ public class ApplicationController {
         return applicationService.getApplications(club_name);
     }
 
-    @PutMapping
+    @PutMapping("/{application_id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @Transactional
-    public void acceptApplication(@RequestBody Map<String, String> application) {
-        applicationService.acceptApplication(Long.parseLong(application.get("application_id")));
+    public void acceptApplication(@PathVariable("application_id") String applicationId) {
+        applicationService.acceptApplication(Long.parseLong(applicationId));
     }
 
     @DeleteMapping("/{application_id}")
