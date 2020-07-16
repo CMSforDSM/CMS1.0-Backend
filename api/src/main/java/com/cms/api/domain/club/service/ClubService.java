@@ -45,6 +45,7 @@ public class ClubService {
                     return ClubListResponseDto.builder()
                             .club_name(club.getClubName())
                             .introduce(club.getIntroduce())
+                            .logo(club.getLogo())
                             .leader(club.getLeader().getStudentNumber() + "-" + club.getLeader().getName())
                             .build();
                 })
@@ -58,6 +59,7 @@ public class ClubService {
         return ClubResponseDto.builder()
                 .club_name(club.getClubName())
                 .introduce(club.getIntroduce())
+                .logo(club.getLogo())
                 .leader(leader.getStudentNumber() + "-" + leader.getName())
                 .members(club.getMembers())
                 .build();
