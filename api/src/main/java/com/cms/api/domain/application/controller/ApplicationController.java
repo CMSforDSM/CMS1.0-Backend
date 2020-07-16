@@ -1,6 +1,4 @@
 package com.cms.api.domain.application.controller;
-
-import com.cms.api.domain.application.domain.Application;
 import com.cms.api.domain.application.dto.ApplicationInfoResponseDto;
 import com.cms.api.domain.application.service.ApplicationService;
 import lombok.RequiredArgsConstructor;

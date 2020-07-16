@@ -25,14 +25,9 @@ public class Application {
     @JoinColumn(name = "club_name")
     private Club club;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Status status;
-
     @Builder
     public Application(User user, Club club) {
         this.user = user;
         this.club = club;
-        this.status = Status.WAIT;
     }
 }
