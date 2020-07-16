@@ -2,16 +2,21 @@ package com.cms.api.domain.application.service;
 
 import com.cms.api.domain.application.dao.ApplicationRepository;
 import com.cms.api.domain.application.domain.Application;
+import com.cms.api.domain.application.dto.ApplicationInfoResponseDto;
 import com.cms.api.domain.auth.exception.UserNotFoundException;
 import com.cms.api.domain.club.dao.ClubRepository;
 import com.cms.api.domain.club.domain.Club;
 import com.cms.api.domain.club.exception.AlreadyClubMemberException;
 import com.cms.api.domain.club.exception.ClubNotFoundException;
+import com.cms.api.domain.club.exception.NotClubLeaderException;
 import com.cms.api.domain.user.dao.UserRepository;
 import com.cms.api.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -38,6 +43,25 @@ public class ApplicationService {
                 .build());
 
         return application.getId();
+    }
+
+    public List<ApplicationInfoResponseDto> getApplications(String clubName) {
+
+        Club club = clubRepository.findById(clubName).orElseThrow(ClubNotFoundException::new);
+
+        String studentNo = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByStudentNumber(studentNo).orElseThrow(UserNotFoundException::new);
+
+        if(!user.equals(club.getLeader())) throw new NotClubLeaderException();
+
+        return club.getApplications().stream()
+                .map(application -> {
+                    return ApplicationInfoResponseDto.builder()
+                            .applicant(application.getUser().getStudentNumber() + "-" + application.getUser().getName())
+                            .application_no(application.getId())
+                            .build();
+                })
+                .collect(Collectors.toList());
     }
 
 }
