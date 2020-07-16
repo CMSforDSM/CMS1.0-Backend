@@ -5,6 +5,7 @@ import com.cms.api.domain.application.domain.Application;
 import com.cms.api.domain.application.dto.ApplicationInfoResponseDto;
 import com.cms.api.domain.application.exception.ApplicationNotFoundException;
 import com.cms.api.domain.application.exception.InvalidApplicationException;
+import com.cms.api.domain.application.exception.NotAllowDeleteApplicationException;
 import com.cms.api.domain.auth.exception.UserNotFoundException;
 import com.cms.api.domain.club.dao.ClubRepository;
 import com.cms.api.domain.club.domain.Club;
@@ -73,13 +74,25 @@ public class ApplicationService {
         Application application = applicationRepository.findById(application_id)
                 .orElseThrow(ApplicationNotFoundException::new);
         Club club = application.getClub();
-        
+
         if(!application.getClub().equals(user.getClub())) throw new InvalidApplicationException();
         if(!user.equals(club.getLeader())) throw new NotClubLeaderException();
 
         User applicant = application.getUser();
         applicant.changeClub(club);
         userRepository.save(applicant);
+
+        applicationRepository.delete(application);
+    }
+
+    public void cancelApplication(Long application_id) {
+        Application application = applicationRepository.findById(application_id)
+                .orElseThrow(ApplicationNotFoundException::new);
+        String studentNo = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByStudentNumber(studentNo).orElseThrow(UserNotFoundException::new);
+
+        if(!(application.getClub().getLeader().equals(user) || application.getUser().equals(user)))
+            throw new NotAllowDeleteApplicationException();
 
         applicationRepository.delete(application);
     }
