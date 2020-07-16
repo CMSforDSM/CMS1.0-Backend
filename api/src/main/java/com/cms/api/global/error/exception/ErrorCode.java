@@ -19,7 +19,10 @@ public enum ErrorCode {
     CLUB_DUPLICATE(409, "C002", "Club Duplicated"),
     NOT_CLUB_LEADER(403, "C003", "Not a club leader"),
     NOT_CLUB_MEMBER(403, "C004", "Not a Club Member"),
-    ALREADY_CLUB_MEMBER(409, "C005", "Already Club member");
+    ALREADY_CLUB_MEMBER(409, "C005", "Already Club member"),
+    APPLICATION_NOT_FOUND(400, "C006", "Club Application Not Found"),
+    INVALID_APPLICATION(400, "C007", "Application Invalid"),
+    NOT_ALLOW_DELETE_APPLICATION(403, "C008", "Not Allow Delete Application");
 
     private final int status;
     private final String code;

@@ -1,5 +1,6 @@
 package com.cms.api.domain.club.domain;
 
+import com.cms.api.domain.application.domain.Application;
 import com.cms.api.domain.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -30,6 +31,9 @@ public class Club {
 
     @OneToMany(mappedBy = "club")
     private List<User> members = new ArrayList<>();
+
+    @OneToMany(mappedBy = "club")
+    private List<Application> applications = new ArrayList<>();
 
     @Builder
     public Club(String clubName, User leader) {

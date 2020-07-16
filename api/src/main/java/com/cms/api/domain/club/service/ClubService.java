@@ -34,6 +34,9 @@ public class ClubService {
                 .clubName(clubName)
                 .leader(user)
                 .build());
+        user.changeClub(club);
+        userRepository.save(user);
+
         return club.getClubName();
     }
 
@@ -90,18 +93,10 @@ public class ClubService {
         User user = userRepository.findByStudentNumber(studentNo).orElseThrow(UserNotFoundException::new);
 
         if(!club.checkMember(user)) throw new NotClubMemberException();
-        User leader = userRepository.findByStudentNumber(club.getLeader().getStudentNumber())
-                .orElseThrow(UserNotFoundException::new);
+        checkLeader(club);
 
-        user.changeClub(null);
-        userRepository.save(user);
         club.changeLeader(user);
         clubRepository.save(club);
-
-        leader.changeClub(null);
-        userRepository.save(leader);
-        leader.changeClub(club);
-        userRepository.save(leader);
 
     }
 
