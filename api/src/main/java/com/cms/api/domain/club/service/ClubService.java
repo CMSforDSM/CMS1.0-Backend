@@ -5,6 +5,7 @@ import com.cms.api.domain.club.dao.ClubRepository;
 import com.cms.api.domain.club.domain.Club;
 import com.cms.api.domain.club.dto.ClubListResponseDto;
 import com.cms.api.domain.club.dto.ClubResponseDto;
+import com.cms.api.domain.club.dto.UpdateClubInfoRequestDto;
 import com.cms.api.domain.club.exception.*;
 import com.cms.api.domain.user.dao.UserRepository;
 import com.cms.api.domain.user.domain.User;
@@ -62,12 +63,12 @@ public class ClubService {
                 .build();
     }
 
-    public void updateClubIntro(String clubName, String introduce) {
+    public void updateClubIntro(String clubName, UpdateClubInfoRequestDto request) {
         Club club = clubRepository.findById(clubName).orElseThrow(ClubNotFoundException::new);
 
         checkLeader(club);
 
-        club.updateIntro(introduce);
+        club.updateInfo(request.getIntroduce(), request.getLogo());
         clubRepository.save(club);
     }
 
