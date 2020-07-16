@@ -34,6 +34,9 @@ public class ClubService {
                 .clubName(clubName)
                 .leader(user)
                 .build());
+        user.changeClub(club);
+        userRepository.save(user);
+
         return club.getClubName();
     }
 
