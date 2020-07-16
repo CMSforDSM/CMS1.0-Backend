@@ -22,6 +22,8 @@ public class Club {
     @Column(length = 30)
     private String introduce;
 
+    private String logo;
+
     @OneToOne
     @JoinColumn(name = "leader")
     private User leader;
@@ -34,10 +36,12 @@ public class Club {
         this.clubName = clubName;
         this.leader = leader;
         this.introduce = "";
+        this.logo = "";
     }
 
-    public void updateIntro(String introduce) {
-        this.introduce = introduce;
+    public void updateInfo(String introduce, String logo) {
+        if(introduce!=null) this.introduce = introduce;
+        if(logo!=null) this.logo = logo;
     }
 
     public boolean checkMemberOrLeader(User member) {
