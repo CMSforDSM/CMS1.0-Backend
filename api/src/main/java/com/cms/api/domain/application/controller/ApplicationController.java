@@ -34,4 +34,10 @@ public class ApplicationController {
         applicationService.acceptApplication(Long.parseLong(application.get("application_id")));
     }
 
+    @DeleteMapping("/{application_id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void cancelApplication(@PathVariable("application_id") String applicationId) {
+        applicationService.cancelApplication(Long.parseLong(applicationId));
+    }
+
 }
