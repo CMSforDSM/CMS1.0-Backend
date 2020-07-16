@@ -15,6 +15,7 @@ public class ClubResponseDto {
 
     private String club_name;
     private String introduce;
+    private String logo;
     private String leader;
     private List<String> members;
 }
