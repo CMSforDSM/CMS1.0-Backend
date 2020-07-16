@@ -11,7 +11,8 @@ public enum ErrorCode {
     USER_DUPLICATE(409, "U002", "User Duplicated"),
 
     // Auth
-    INVALID_TOKEN(401, "A001", "Invalid Token"),
+    AUTHENTICATION(401, "A001", "Authentication Error"),
+    INVALID_TOKEN(401, "A002", "Invalid Token"),
 
     // Club
     CLUB_NOT_FOUND(400, "C001", "Club Not Found"),
