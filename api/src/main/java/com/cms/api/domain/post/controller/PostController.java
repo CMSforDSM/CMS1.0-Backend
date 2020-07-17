@@ -1,6 +1,7 @@
 package com.cms.api.domain.post.controller;
 
 import com.cms.api.domain.post.dto.PostCreateRequestDto;
+import com.cms.api.domain.post.dto.PostDetailResponseDto;
 import com.cms.api.domain.post.dto.PostListResponseDto;
 import com.cms.api.domain.post.dto.PostUpdateRequestDto;
 import com.cms.api.domain.post.service.PostService;
@@ -22,6 +23,11 @@ public class PostController {
     @ResponseStatus(value = HttpStatus.CREATED)
     public Long createPost(@RequestBody PostCreateRequestDto requestDto) {
         return postService.createPost(requestDto);
+    }
+
+    @GetMapping("/{post_id}")
+    public PostDetailResponseDto getPost(@PathVariable("post_id") String postId) {
+        return postService.getPost(postId);
     }
 
     @GetMapping
