@@ -28,8 +28,6 @@ public class Comment extends BaseTimeEntity {
     @JoinColumn(name = "post")
     private Post post;
 
-    private String title;
-
     private String content;
 
     @OneToMany(mappedBy = "parentComment")
@@ -40,16 +38,15 @@ public class Comment extends BaseTimeEntity {
     private Comment parentComment;
 
     @Builder
-    public Comment(User writer, Post post, String title, String content) {
+    public Comment(User writer, Post post, String content, Comment parentComment) {
         this.writer = writer;
         this.post = post;
-        this.title = title;
         this.content = content;
+        this.parentComment = parentComment;
     }
 
-    public void reviseContent(String title, String content) {
-        if(title != null) this.title = title;
-        if(content != null) this.content = content;
+    public void reviseContent(String content) {
+        this.content = content;
     }
 
 }
