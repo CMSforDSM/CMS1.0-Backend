@@ -26,7 +26,10 @@ public enum ErrorCode {
 
     // Post
     POST_NOT_FOUND(400, "P001", "Post Not Found"),
-    NOT_MY_POST(403, "P002", "Not My Post");
+    NOT_MY_POST(403, "P002", "Not My Post"),
+
+    // Comment
+    COMMENT_NOT_FOUND(400, "M001", "Comment Not Found");
 
     private final int status;
     private final String code;
