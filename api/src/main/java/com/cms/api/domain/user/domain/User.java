@@ -1,10 +1,7 @@
 package com.cms.api.domain.user.domain;
 
-import com.cms.api.domain.achievement.domain.Achievement;
 import com.cms.api.domain.club.domain.Club;
-import com.cms.api.domain.comment.domain.AchievementComment;
-import com.cms.api.domain.comment.domain.RecruitmentComment;
-import com.cms.api.domain.recruitment.domain.Recruitment;
+import com.cms.api.domain.post.domain.Post;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,16 +39,7 @@ public class User {
     private Role role;
 
     @OneToMany(mappedBy = "writer")
-    private List<Achievement> achievements = new ArrayList<>();
-
-    @OneToMany(mappedBy = "writer")
-    private List<Recruitment> recruitments = new ArrayList<>();
-
-    @OneToMany(mappedBy = "writer")
-    private List<AchievementComment> achievementComments = new ArrayList<>();
-
-    @OneToMany(mappedBy = "writer")
-    private List<RecruitmentComment> recruitmentComments = new ArrayList<>();
+    private List<Post> posts = new ArrayList<>();
 
     @Builder
     public User(String id, String password, String name, String studentNumber, Role role) {
