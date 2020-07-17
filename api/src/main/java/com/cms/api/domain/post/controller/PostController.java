@@ -38,4 +38,10 @@ public class PostController {
         postService.editPost(postId, requestDto);
     }
 
+    @DeleteMapping("/{post_id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deletePost(@PathVariable("post_id") String postId) {
+        postService.deletePost(postId);
+    }
+
 }
