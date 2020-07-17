@@ -82,13 +82,25 @@ public class PostService {
     public void editPost(String postId, PostUpdateRequestDto request) {
         Post post = postRepository.findById(Long.parseLong(postId)).orElseThrow(PostNotFoundException::new);
 
+        checkWriter(post);
+
+        post.updateContent(request.getTitle(), request.getContent());
+        postRepository.save(post);
+    }
+
+    public void deletePost(String postId) {
+        Post post = postRepository.findById(Long.parseLong(postId)).orElseThrow(PostNotFoundException::new);
+
+        checkWriter(post);
+
+        postRepository.delete(post);
+    }
+
+    private void checkWriter(Post post) {
         String studentNo = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByStudentNumber(studentNo).orElseThrow(UserNotFoundException::new);
 
         if(!user.equals(post.getWriter())) throw new NotMyPostException();
-
-        post.updateContent(request.getTitle(), request.getContent());
-        postRepository.save(post);
     }
 
 }
