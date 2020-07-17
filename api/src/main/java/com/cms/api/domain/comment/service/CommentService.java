@@ -36,8 +36,11 @@ public class CommentService {
         Post post = postRepository.findById(Long.parseLong(request.getPost_id()))
                 .orElseThrow(PostNotFoundException::new);
 
-        Comment parent = commentRepository.findById(Long.parseLong(request.getParent_comment_id()))
-                .orElseThrow(CommentNotFoundException::new);
+        Comment parent = null;
+        if(request.getParent_comment_id() != null) {
+            parent = commentRepository.findById(Long.parseLong(request.getParent_comment_id()))
+                    .orElseThrow(CommentNotFoundException::new);
+        }
 
         Comment comment = commentRepository.save(Comment.builder()
                 .content(request.getContent())
