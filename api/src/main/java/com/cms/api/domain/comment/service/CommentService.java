@@ -5,10 +5,12 @@ import com.cms.api.domain.comment.dao.CommentRepository;
 import com.cms.api.domain.comment.domain.Comment;
 import com.cms.api.domain.comment.dto.CommentResponseDto;
 import com.cms.api.domain.comment.dto.CreateCommentRequestDto;
+import com.cms.api.domain.comment.exception.CannotAddCommentException;
 import com.cms.api.domain.comment.exception.CommentNotFoundException;
 import com.cms.api.domain.comment.exception.NotMyCommentException;
 import com.cms.api.domain.post.dao.PostRepository;
 import com.cms.api.domain.post.domain.Post;
+import com.cms.api.domain.post.domain.PostType;
 import com.cms.api.domain.post.exception.PostNotFoundException;
 import com.cms.api.domain.user.dao.UserRepository;
 import com.cms.api.domain.user.domain.User;
@@ -35,6 +37,8 @@ public class CommentService {
 
         Post post = postRepository.findById(Long.parseLong(request.getPost_id()))
                 .orElseThrow(PostNotFoundException::new);
+
+        if(post.getPostType() == PostType.RESUME) throw new CannotAddCommentException();
 
         Comment parent = null;
         if(request.getParent_comment_id() != null) {
