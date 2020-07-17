@@ -22,7 +22,10 @@ public enum ErrorCode {
     ALREADY_CLUB_MEMBER(409, "C005", "Already Club member"),
     APPLICATION_NOT_FOUND(400, "C006", "Club Application Not Found"),
     INVALID_APPLICATION(400, "C007", "Application Invalid"),
-    NOT_ALLOW_DELETE_APPLICATION(403, "C008", "Not Allow Delete Application");
+    NOT_ALLOW_DELETE_APPLICATION(403, "C008", "Not Allow Delete Application"),
+
+    // Post
+    POST_NOT_FOUND(400, "P001", "Post Not Found");
 
     private final int status;
     private final String code;
