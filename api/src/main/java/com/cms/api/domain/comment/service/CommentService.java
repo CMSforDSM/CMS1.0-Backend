@@ -78,6 +78,15 @@ public class CommentService {
         commentRepository.save(comment);
     }
 
+    public void deleteComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(CommentNotFoundException::new);
+
+        checkOwner(comment);
+
+        commentRepository.delete(comment);
+    }
+
     private void checkOwner(Comment comment) {
         String studentNo = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByStudentNumber(studentNo).orElseThrow(UserNotFoundException::new);
