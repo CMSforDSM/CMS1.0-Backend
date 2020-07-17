@@ -1,6 +1,7 @@
 package com.cms.api.domain.user.domain;
 
 import com.cms.api.domain.club.domain.Club;
+import com.cms.api.domain.comment.domain.Comment;
 import com.cms.api.domain.post.domain.Post;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -40,6 +41,9 @@ public class User {
 
     @OneToMany(mappedBy = "writer")
     private List<Post> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "writer")
+    private List<Comment> comments = new ArrayList<>();
 
     @Builder
     public User(String id, String password, String name, String studentNumber, Role role) {
