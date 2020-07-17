@@ -9,6 +9,7 @@ import com.cms.api.domain.post.dao.PostRepository;
 import com.cms.api.domain.post.domain.Post;
 import com.cms.api.domain.post.domain.PostType;
 import com.cms.api.domain.post.dto.PostCreateRequestDto;
+import com.cms.api.domain.post.dto.PostDetailResponseDto;
 import com.cms.api.domain.post.dto.PostListResponseDto;
 import com.cms.api.domain.post.dto.PostUpdateRequestDto;
 import com.cms.api.domain.post.exception.NotMyPostException;
@@ -53,6 +54,20 @@ public class PostService {
                 .build());
 
         return post.getId();
+    }
+
+    public PostDetailResponseDto getPost(String postId) {
+        Post post = postRepository.findById(Long.parseLong(postId)).orElseThrow(PostNotFoundException::new);
+        String club = post.getClub() != null ? post.getClub().getClubName() : null;
+
+        return PostDetailResponseDto.builder()
+                .post_id(post.getId())
+                .post_type(post.getPostType().getValue())
+                .writer(post.getWriter().getStudentNumber() + "-" + post.getWriter().getName())
+                .club(club)
+                .title(post.getTitle())
+                .content(post.getContent())
+                .build();
     }
 
     public List<PostListResponseDto> getPosts(String type, String club_name) {
