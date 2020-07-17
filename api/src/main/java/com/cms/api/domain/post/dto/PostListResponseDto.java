@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Builder
 @Getter
 @AllArgsConstructor
@@ -13,5 +15,6 @@ public class PostListResponseDto {
 
     private String title;
     private String writer;
+    private LocalDateTime date_time;
 
 }

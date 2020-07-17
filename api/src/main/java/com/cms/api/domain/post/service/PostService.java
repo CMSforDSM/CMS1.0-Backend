@@ -54,14 +54,14 @@ public class PostService {
 
     public List<PostListResponseDto> getPosts(String type, String club_name) {
 
-        Club club = null;
+        Club club;
         List<Post> posts;
 
         if(club_name != null) {
             club = clubRepository.findById(club_name).orElseThrow(ClubNotFoundException::new);
-            posts = postRepository.findAllByPostTypeAndClub(PostType.valueOf(type), club);
+            posts = postRepository.findAllByPostTypeAndClubOrderByUpdatedDateDesc(PostType.valueOf(type), club);
         } else {
-            posts = postRepository.findAllByPostType(PostType.valueOf(type));
+            posts = postRepository.findAllByPostTypeOrderByUpdatedDateDesc(PostType.valueOf(type));
         }
 
         return posts.stream()
@@ -69,6 +69,7 @@ public class PostService {
                     return PostListResponseDto.builder()
                             .title(post.getTitle())
                             .writer(post.getWriter().getStudentNumber() + "-" + post.getWriter().getName())
+                            .date_time(post.getUpdatedDate())
                             .build();
                 })
                 .collect(Collectors.toList());
