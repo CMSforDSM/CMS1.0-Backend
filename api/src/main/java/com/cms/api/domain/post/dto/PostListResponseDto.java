@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class PostListResponseDto {
 
+    private Long post_id;
     private String title;
     private String writer;
     private LocalDateTime date_time;

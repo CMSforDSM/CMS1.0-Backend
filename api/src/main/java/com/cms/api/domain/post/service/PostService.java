@@ -73,6 +73,7 @@ public class PostService {
                             .title(post.getTitle())
                             .writer(post.getWriter().getStudentNumber() + "-" + post.getWriter().getName())
                             .date_time(post.getUpdatedDate())
+                            .post_id(post.getId())
                             .build();
                 })
                 .collect(Collectors.toList());
