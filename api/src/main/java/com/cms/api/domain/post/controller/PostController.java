@@ -1,10 +1,13 @@
 package com.cms.api.domain.post.controller;
 
 import com.cms.api.domain.post.dto.PostCreateRequestDto;
+import com.cms.api.domain.post.dto.PostListResponseDto;
 import com.cms.api.domain.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/posts")
@@ -17,6 +20,12 @@ public class PostController {
     @ResponseStatus(value = HttpStatus.CREATED)
     public Long createPost(@RequestBody PostCreateRequestDto requestDto) {
         return postService.createPost(requestDto);
+    }
+
+    @GetMapping
+    public List<PostListResponseDto> getPosts(@RequestParam String type,
+                                              @RequestParam(required = false) String club) {
+        return postService.getPosts(type, club);
     }
 
 }
