@@ -25,7 +25,8 @@ public enum ErrorCode {
     NOT_ALLOW_DELETE_APPLICATION(403, "C008", "Not Allow Delete Application"),
 
     // Post
-    POST_NOT_FOUND(400, "P001", "Post Not Found");
+    POST_NOT_FOUND(400, "P001", "Post Not Found"),
+    NOT_MY_POST(403, "P002", "Not My Post");
 
     private final int status;
     private final String code;
