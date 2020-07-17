@@ -10,6 +10,9 @@ import com.cms.api.domain.post.domain.Post;
 import com.cms.api.domain.post.domain.PostType;
 import com.cms.api.domain.post.dto.PostCreateRequestDto;
 import com.cms.api.domain.post.dto.PostListResponseDto;
+import com.cms.api.domain.post.dto.PostUpdateRequestDto;
+import com.cms.api.domain.post.exception.NotMyPostException;
+import com.cms.api.domain.post.exception.PostNotFoundException;
 import com.cms.api.domain.user.dao.UserRepository;
 import com.cms.api.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -74,6 +77,18 @@ public class PostService {
                 })
                 .collect(Collectors.toList());
 
+    }
+
+    public void editPost(String postId, PostUpdateRequestDto request) {
+        Post post = postRepository.findById(Long.parseLong(postId)).orElseThrow(PostNotFoundException::new);
+
+        String studentNo = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByStudentNumber(studentNo).orElseThrow(UserNotFoundException::new);
+
+        if(!user.equals(post.getWriter())) throw new NotMyPostException();
+
+        post.updateContent(request.getTitle(), request.getContent());
+        postRepository.save(post);
     }
 
 }

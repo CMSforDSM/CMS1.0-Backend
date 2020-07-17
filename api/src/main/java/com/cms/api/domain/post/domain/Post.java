@@ -44,4 +44,9 @@ public class Post extends BaseTimeEntity {
         this.club = club;
     }
 
+    public void updateContent(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
 }
