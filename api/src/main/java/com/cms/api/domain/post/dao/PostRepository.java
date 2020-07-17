@@ -11,5 +11,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findAllByPostType(PostType postType);
     List<Post> findAllByPostTypeAndClub(PostType postType, Club club);
-    
+
 }
