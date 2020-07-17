@@ -1,6 +1,7 @@
 package com.cms.api.domain.post.domain;
 
 import com.cms.api.domain.club.domain.Club;
+import com.cms.api.domain.comment.domain.Comment;
 import com.cms.api.domain.model.BaseTimeEntity;
 import com.cms.api.domain.user.domain.User;
 import lombok.AccessLevel;
@@ -9,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -34,6 +37,9 @@ public class Post extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private PostType postType;
+
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments = new ArrayList<>();
 
     @Builder
     public Post(User writer, String title, String content, PostType postType, Club club) {
