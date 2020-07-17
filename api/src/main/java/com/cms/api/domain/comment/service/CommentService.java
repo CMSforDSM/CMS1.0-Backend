@@ -3,6 +3,7 @@ package com.cms.api.domain.comment.service;
 import com.cms.api.domain.auth.exception.UserNotFoundException;
 import com.cms.api.domain.comment.dao.CommentRepository;
 import com.cms.api.domain.comment.domain.Comment;
+import com.cms.api.domain.comment.dto.CommentResponseDto;
 import com.cms.api.domain.comment.dto.CreateCommentRequestDto;
 import com.cms.api.domain.comment.exception.CommentNotFoundException;
 import com.cms.api.domain.post.dao.PostRepository;
@@ -13,6 +14,9 @@ import com.cms.api.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -41,6 +45,26 @@ public class CommentService {
                 .post(post)
                 .build());
         return comment.getId();
+    }
+
+    public List<CommentResponseDto> getComments(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+
+        return post.getComments().stream()
+                .map(comment -> {
+                    List<Long> comments = comment.getChildComment().stream()
+                            .map(Comment::getId)
+                            .collect(Collectors.toList());
+
+                    return CommentResponseDto.builder()
+                            .content(comment.getContent())
+                            .comment_id(comment.getId())
+                            .post_id(comment.getPost().getId())
+                            .writer(comment.getWriter().getStudentNumber() + "-" + comment.getWriter().getName())
+                            .child_comments(comments)
+                            .build();
+                })
+                .collect(Collectors.toList());
     }
 
 }
