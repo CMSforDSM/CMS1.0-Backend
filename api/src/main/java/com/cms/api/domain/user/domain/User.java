@@ -4,6 +4,7 @@ import com.cms.api.domain.achievement.domain.Achievement;
 import com.cms.api.domain.club.domain.Club;
 import com.cms.api.domain.comment.domain.AchievementComment;
 import com.cms.api.domain.comment.domain.RecruitmentComment;
+import com.cms.api.domain.post.domain.Post;
 import com.cms.api.domain.recruitment.domain.Recruitment;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -40,6 +41,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    @OneToMany(mappedBy = "writer")
+    private List<Post> posts = new ArrayList<>();
 
     @OneToMany(mappedBy = "writer")
     private List<Achievement> achievements = new ArrayList<>();
