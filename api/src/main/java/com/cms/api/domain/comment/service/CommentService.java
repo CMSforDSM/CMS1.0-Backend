@@ -6,6 +6,7 @@ import com.cms.api.domain.comment.domain.Comment;
 import com.cms.api.domain.comment.dto.CommentResponseDto;
 import com.cms.api.domain.comment.dto.CreateCommentRequestDto;
 import com.cms.api.domain.comment.exception.CommentNotFoundException;
+import com.cms.api.domain.comment.exception.NotMyCommentException;
 import com.cms.api.domain.post.dao.PostRepository;
 import com.cms.api.domain.post.domain.Post;
 import com.cms.api.domain.post.exception.PostNotFoundException;
@@ -65,6 +66,23 @@ public class CommentService {
                             .build();
                 })
                 .collect(Collectors.toList());
+    }
+
+    public void reviseComment(Long commentId, String content) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(CommentNotFoundException::new);
+
+        checkOwner(comment);
+
+        comment.reviseContent(content);
+        commentRepository.save(comment);
+    }
+
+    private void checkOwner(Comment comment) {
+        String studentNo = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByStudentNumber(studentNo).orElseThrow(UserNotFoundException::new);
+
+        if(!user.equals(comment.getWriter())) throw new NotMyCommentException();
     }
 
 }
