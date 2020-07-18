@@ -31,8 +31,14 @@ public class ScoutController {
     @PatchMapping("/{scout_id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @Transactional
-    public void acceptScout(@PathVariable String scoutId) {
+    public void acceptScout(@PathVariable("scout_id") String scoutId) {
         scoutService.acceptScout(Long.parseLong(scoutId));
+    }
+
+    @DeleteMapping("/{scout_id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void denyScout(@PathVariable("scout_id") String scoutId) {
+        scoutService.denyScout(Long.parseLong(scoutId));
     }
 
 }
