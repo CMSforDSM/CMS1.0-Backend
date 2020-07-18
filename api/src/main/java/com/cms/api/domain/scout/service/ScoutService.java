@@ -23,11 +23,11 @@ import java.util.stream.Collectors;
 @Service
 public class ScoutService {
 
-    private ScoutRepository scoutRepository;
+    private final ScoutRepository scoutRepository;
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private ClubRepository clubRepository;
+    private final ClubRepository clubRepository;
 
     public Long createScout(String targetNo) {
         User target = userRepository.findByStudentNumber(targetNo).orElseThrow(UserNotFoundException::new);
