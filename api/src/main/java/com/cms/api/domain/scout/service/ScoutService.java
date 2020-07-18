@@ -7,21 +7,25 @@ import com.cms.api.domain.club.exception.ClubNotFoundException;
 import com.cms.api.domain.club.exception.NotClubLeaderException;
 import com.cms.api.domain.scout.dao.ScoutRepository;
 import com.cms.api.domain.scout.domain.Scout;
+import com.cms.api.domain.scout.dto.ScoutResponseDto;
 import com.cms.api.domain.user.dao.UserRepository;
 import com.cms.api.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 public class ScoutService {
 
-    public ScoutRepository scoutRepository;
+    private ScoutRepository scoutRepository;
 
-    public UserRepository userRepository;
+    private UserRepository userRepository;
 
-    public ClubRepository clubRepository;
+    private ClubRepository clubRepository;
 
     public Long createScout(String targetNo) {
         User target = userRepository.findByStudentNumber(targetNo).orElseThrow(UserNotFoundException::new);
@@ -38,6 +42,23 @@ public class ScoutService {
                 .build());
 
         return scout.getId();
+    }
+
+    public List<ScoutResponseDto> getScouts() {
+        String studentNo = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByStudentNumber(studentNo).orElseThrow(UserNotFoundException::new);
+
+        List<Scout> scouts = scoutRepository.findAllByTarget(user);
+
+        return scouts.stream()
+                .map(scout -> {
+                    return ScoutResponseDto.builder()
+                            .scout_id(scout.getId())
+                            .club(scout.getClub().getClubName())
+                            .target(scout.getTarget().getStudentNumber() + "-" + scout.getTarget().getName())
+                            .build();
+                })
+                .collect(Collectors.toList());
     }
 
 }
