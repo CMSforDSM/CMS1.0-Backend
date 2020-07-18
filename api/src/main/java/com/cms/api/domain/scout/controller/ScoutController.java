@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,13 @@ public class ScoutController {
     @GetMapping
     public List<ScoutResponseDto> getScouts() {
         return scoutService.getScouts();
+    }
+
+    @PatchMapping("/{scout_id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    @Transactional
+    public void acceptScout(@PathVariable String scoutId) {
+        scoutService.acceptScout(Long.parseLong(scoutId));
     }
 
 }
