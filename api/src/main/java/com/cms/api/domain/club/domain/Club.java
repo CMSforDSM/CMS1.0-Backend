@@ -64,6 +64,8 @@ public class Club {
         return this.members.contains(member);
     }
 
+    public boolean checkLeader(User user) { return this.leader.equals(user); }
+
     public List<String> getMembers() {
         return this.members.stream()
                 .map(member -> {
