@@ -34,7 +34,8 @@ public enum ErrorCode {
     CANNOT_ADD_COMMENT(400, "M003", "Cannot Add Comment"),
 
     // Scout
-    SCOUT_NOT_FOUND(400, "S001", "Scout Not Found");
+    SCOUT_NOT_FOUND(400, "S001", "Scout Not Found"),
+    NOT_MY_SCOUT(403, "S002", "Not My Scout");
 
     private final int status;
     private final String code;
