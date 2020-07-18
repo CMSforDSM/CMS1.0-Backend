@@ -8,6 +8,8 @@ import com.cms.api.domain.club.exception.NotClubLeaderException;
 import com.cms.api.domain.scout.dao.ScoutRepository;
 import com.cms.api.domain.scout.domain.Scout;
 import com.cms.api.domain.scout.dto.ScoutResponseDto;
+import com.cms.api.domain.scout.exception.NotMyScoutException;
+import com.cms.api.domain.scout.exception.ScoutNotFoundException;
 import com.cms.api.domain.user.dao.UserRepository;
 import com.cms.api.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -59,6 +61,20 @@ public class ScoutService {
                             .build();
                 })
                 .collect(Collectors.toList());
+    }
+
+    public void acceptScout(Long scoutId) {
+        String studentNo = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByStudentNumber(studentNo).orElseThrow(UserNotFoundException::new);
+
+        Scout scout = scoutRepository.findById(scoutId).orElseThrow(ScoutNotFoundException::new);
+        if(!scout.getTarget().equals(user)) throw new NotMyScoutException();
+
+        Club club = clubRepository.findById(scout.getClub().getClubName())
+                .orElseThrow(ClubNotFoundException::new);
+        user.changeClub(club);
+
+        scoutRepository.delete(scout);
     }
 
 }
