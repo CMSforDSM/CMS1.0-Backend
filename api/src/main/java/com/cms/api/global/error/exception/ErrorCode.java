@@ -31,7 +31,10 @@ public enum ErrorCode {
     // Comment
     COMMENT_NOT_FOUND(400, "M001", "Comment Not Found"),
     NOT_MY_COMMENT(403, "M002", "Not My Comment"),
-    CANNOT_ADD_COMMENT(400, "M003", "Cannot Add Comment");
+    CANNOT_ADD_COMMENT(400, "M003", "Cannot Add Comment"),
+
+    // Scout
+    SCOUT_NOT_FOUND(400, "S001", "Scout Not Found");
 
     private final int status;
     private final String code;
