@@ -64,17 +64,30 @@ public class ScoutService {
     }
 
     public void acceptScout(Long scoutId) {
-        String studentNo = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByStudentNumber(studentNo).orElseThrow(UserNotFoundException::new);
-
         Scout scout = scoutRepository.findById(scoutId).orElseThrow(ScoutNotFoundException::new);
-        if(!scout.getTarget().equals(user)) throw new NotMyScoutException();
+        User user = checkScoutOwner(scout);
 
         Club club = clubRepository.findById(scout.getClub().getClubName())
                 .orElseThrow(ClubNotFoundException::new);
         user.changeClub(club);
 
         scoutRepository.delete(scout);
+    }
+
+    public void denyScout(Long scoutId) {
+
+        Scout scout = scoutRepository.findById(scoutId).orElseThrow(ScoutNotFoundException::new);
+        checkScoutOwner(scout);
+
+        scoutRepository.delete(scout);
+    }
+
+    private User checkScoutOwner(Scout scout) {
+        String studentNo = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByStudentNumber(studentNo).orElseThrow(UserNotFoundException::new);
+
+        if(!scout.getTarget().equals(user)) throw new NotMyScoutException();
+        return user;
     }
 
 }
