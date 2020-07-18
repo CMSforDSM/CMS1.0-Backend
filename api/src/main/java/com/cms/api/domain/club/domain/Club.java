@@ -2,6 +2,7 @@ package com.cms.api.domain.club.domain;
 
 import com.cms.api.domain.application.domain.Application;
 import com.cms.api.domain.post.domain.Post;
+import com.cms.api.domain.scout.domain.Scout;
 import com.cms.api.domain.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -39,6 +40,9 @@ public class Club {
     @OneToMany(mappedBy = "club")
     private List<Post> posts = new ArrayList<>();
 
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
+    private List<Scout> scouts = new ArrayList<>();
+
     @Builder
     public Club(String clubName, User leader) {
         this.clubName = clubName;
@@ -59,6 +63,8 @@ public class Club {
     public boolean checkMember(User member) {
         return this.members.contains(member);
     }
+
+    public boolean checkLeader(User user) { return this.leader.equals(user); }
 
     public List<String> getMembers() {
         return this.members.stream()

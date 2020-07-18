@@ -3,6 +3,7 @@ package com.cms.api.domain.user.domain;
 import com.cms.api.domain.club.domain.Club;
 import com.cms.api.domain.comment.domain.Comment;
 import com.cms.api.domain.post.domain.Post;
+import com.cms.api.domain.scout.domain.Scout;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,6 +45,9 @@ public class User {
 
     @OneToMany(mappedBy = "writer")
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "target", cascade = CascadeType.ALL)
+    private List<Scout> scouts = new ArrayList<>();
 
     @Builder
     public User(String id, String password, String name, String studentNumber, Role role) {
