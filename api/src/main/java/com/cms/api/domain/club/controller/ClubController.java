@@ -1,6 +1,5 @@
 package com.cms.api.domain.club.controller;
 
-import com.cms.api.domain.club.dto.ClubListResponseDto;
 import com.cms.api.domain.club.dto.ClubResponseDto;
 import com.cms.api.domain.club.dto.UpdateClubInfoRequestDto;
 import com.cms.api.domain.club.service.ClubService;
@@ -26,7 +25,7 @@ public class ClubController {
     }
 
     @GetMapping
-    public List<ClubListResponseDto> getClubs() {
+    public List<ClubResponseDto> getClubs() {
         return clubService.getClubs();
     }
 
