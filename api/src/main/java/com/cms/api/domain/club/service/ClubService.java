@@ -3,7 +3,6 @@ package com.cms.api.domain.club.service;
 import com.cms.api.domain.auth.exception.UserNotFoundException;
 import com.cms.api.domain.club.dao.ClubRepository;
 import com.cms.api.domain.club.domain.Club;
-import com.cms.api.domain.club.dto.ClubListResponseDto;
 import com.cms.api.domain.club.dto.ClubResponseDto;
 import com.cms.api.domain.club.dto.UpdateClubInfoRequestDto;
 import com.cms.api.domain.club.exception.*;
@@ -40,16 +39,18 @@ public class ClubService {
         return club.getClubName();
     }
 
-    public List<ClubListResponseDto> getClubs() {
+    public List<ClubResponseDto> getClubs() {
         List<Club> clubs = clubRepository.findAll();
 
         return clubs.stream()
                 .map(club -> {
-                    return ClubListResponseDto.builder()
+                    return ClubResponseDto.builder()
                             .club_name(club.getClubName())
-                            .introduce(club.getIntroduce())
                             .logo(club.getLogo())
-                            .leader(club.getLeader().getStudentNumber() + "-" + club.getLeader().getName())
+                            .leader(club.getLeader().getStudentNumber() + "-" +
+                                    club.getLeader().getName())
+                            .introduce(club.getIntroduce())
+                            .members(club.getMembers())
                             .build();
                 })
                 .collect(Collectors.toList());
