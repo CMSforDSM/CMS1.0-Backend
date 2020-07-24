@@ -1,7 +1,7 @@
 # CMS1.0-Backend
 대덕소프트웨어 전공동아리 관리 서비스 
 
-**Club Management Service** - CMS 1.0 Backend
+**Club Management Service** - CMS 1.0 Backend  
 ![Java CI with Gradle](https://github.com/CMSforDSM/CMS1.0-Backend/workflows/Java%20CI%20with%20Gradle/badge.svg)
 
 
