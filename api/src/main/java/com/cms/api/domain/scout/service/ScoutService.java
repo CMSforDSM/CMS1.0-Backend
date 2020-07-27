@@ -8,6 +8,7 @@ import com.cms.api.domain.club.exception.NotClubLeaderException;
 import com.cms.api.domain.scout.dao.ScoutRepository;
 import com.cms.api.domain.scout.domain.Scout;
 import com.cms.api.domain.scout.dto.ScoutResponseDto;
+import com.cms.api.domain.scout.exception.AlreadyScoutException;
 import com.cms.api.domain.scout.exception.NotMyScoutException;
 import com.cms.api.domain.scout.exception.ScoutNotFoundException;
 import com.cms.api.domain.user.dao.UserRepository;
@@ -37,6 +38,8 @@ public class ScoutService {
 
         Club club = clubRepository.findById(user.getClub().getClubName()).orElseThrow(ClubNotFoundException::new);
         if(!club.checkLeader(user)) throw new NotClubLeaderException();
+
+        if(scoutRepository.findByClubAndTarget(club, user).isPresent()) throw new AlreadyScoutException();
 
         Scout scout = scoutRepository.save(Scout.builder()
                 .target(target)
