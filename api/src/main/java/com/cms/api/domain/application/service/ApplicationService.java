@@ -3,6 +3,7 @@ package com.cms.api.domain.application.service;
 import com.cms.api.domain.application.dao.ApplicationRepository;
 import com.cms.api.domain.application.domain.Application;
 import com.cms.api.domain.application.dto.ApplicationInfoResponseDto;
+import com.cms.api.domain.application.exception.AlreadyApplyException;
 import com.cms.api.domain.application.exception.AppNotFoundException;
 import com.cms.api.domain.application.exception.InvalidApplicationException;
 import com.cms.api.domain.application.exception.NotAllowDeleteApplicationException;
@@ -39,6 +40,7 @@ public class ApplicationService {
         User user = userRepository.findByStudentNumber(studentNo).orElseThrow(UserNotFoundException::new);
 
         if(club.checkMemberOrLeader(user)) throw new AlreadyClubMemberException();
+        if(applicationRepository.findByUserAndClub(user, club).isPresent()) throw new AlreadyApplyException();
 
         Application application = applicationRepository.save(Application.builder()
                 .club(club)
