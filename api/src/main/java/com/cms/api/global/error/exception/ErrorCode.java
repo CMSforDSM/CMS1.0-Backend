@@ -23,6 +23,7 @@ public enum ErrorCode {
     APPLICATION_NOT_FOUND(400, "C006", "Club Application Not Found"),
     INVALID_APPLICATION(400, "C007", "Application Invalid"),
     NOT_ALLOW_DELETE_APPLICATION(403, "C008", "Not Allow Delete Application"),
+    ALREADY_APPLY(409, "C009", "Already Applied"),
 
     // Post
     POST_NOT_FOUND(400, "P001", "Post Not Found"),
