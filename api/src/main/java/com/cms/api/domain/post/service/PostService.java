@@ -89,6 +89,7 @@ public class PostService {
                             .writer(post.getWriter().getStudentNumber() + "-" + post.getWriter().getName())
                             .date_time(post.getUpdatedDate())
                             .post_id(post.getId())
+                            .content(post.getContent())
                             .build();
                 })
                 .collect(Collectors.toList());

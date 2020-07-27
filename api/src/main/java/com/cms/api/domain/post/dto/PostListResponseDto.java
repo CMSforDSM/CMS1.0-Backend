@@ -16,6 +16,7 @@ public class PostListResponseDto {
     private Long post_id;
     private String title;
     private String writer;
+    private String content;
     private LocalDateTime date_time;
 
 }
