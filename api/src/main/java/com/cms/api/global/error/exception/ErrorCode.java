@@ -36,7 +36,8 @@ public enum ErrorCode {
 
     // Scout
     SCOUT_NOT_FOUND(400, "S001", "Scout Not Found"),
-    NOT_MY_SCOUT(403, "S002", "Not My Scout");
+    NOT_MY_SCOUT(403, "S002", "Not My Scout"),
+    ALREADY_SCOUT(409, "S003", "Already Scouted");
 
     private final int status;
     private final String code;
