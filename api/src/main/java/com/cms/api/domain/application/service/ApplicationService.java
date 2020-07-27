@@ -3,7 +3,7 @@ package com.cms.api.domain.application.service;
 import com.cms.api.domain.application.dao.ApplicationRepository;
 import com.cms.api.domain.application.domain.Application;
 import com.cms.api.domain.application.dto.ApplicationInfoResponseDto;
-import com.cms.api.domain.application.exception.ApplicationNotFoundException;
+import com.cms.api.domain.application.exception.AppNotFoundException;
 import com.cms.api.domain.application.exception.InvalidApplicationException;
 import com.cms.api.domain.application.exception.NotAllowDeleteApplicationException;
 import com.cms.api.domain.auth.exception.UserNotFoundException;
@@ -72,7 +72,7 @@ public class ApplicationService {
         User user = userRepository.findByStudentNumber(studentNo).orElseThrow(UserNotFoundException::new);
 
         Application application = applicationRepository.findById(application_id)
-                .orElseThrow(ApplicationNotFoundException::new);
+                .orElseThrow(AppNotFoundException::new);
         Club club = application.getClub();
 
         if(!application.getClub().equals(user.getClub())) throw new InvalidApplicationException();
@@ -87,7 +87,7 @@ public class ApplicationService {
 
     public void cancelApplication(Long application_id) {
         Application application = applicationRepository.findById(application_id)
-                .orElseThrow(ApplicationNotFoundException::new);
+                .orElseThrow(AppNotFoundException::new);
         String studentNo = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByStudentNumber(studentNo).orElseThrow(UserNotFoundException::new);
 
