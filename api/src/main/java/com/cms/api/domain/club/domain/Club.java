@@ -77,7 +77,8 @@ public class Club {
     public List<String> getClubMembers() {
         return this.members.stream()
                 .map(member -> {
-                    return member.getClub().getClubName() + "-" + member.getStudentNumber() + "-" + member.getName();
+                    return member.getClub().getClubName() + "-" + member.getStudentNumber() + "-" + member.getName() +
+                            "-" + member.getClub().getLeader().getName();
                 })
                 .collect(Collectors.toList());
     }
