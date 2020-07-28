@@ -3,6 +3,7 @@ package com.cms.api.domain.club.service;
 import com.cms.api.domain.club.dao.ClubRepository;
 import com.cms.api.domain.club.domain.Club;
 import com.cms.api.domain.club.dto.ClubMemberResponseDto;
+import com.cms.api.domain.club.exception.CannotGenerateExcelException;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -33,7 +34,7 @@ public class MemberListServiceImpl implements MemberListService {
             response.setHeader("Content-Disposition", String.format("attachment; filename=\"test.xlsx\""));
             wb.write(response.getOutputStream());
         } catch (Exception e) {
-
+            throw new CannotGenerateExcelException();
         } finally {
             try {
                 wb.close();
