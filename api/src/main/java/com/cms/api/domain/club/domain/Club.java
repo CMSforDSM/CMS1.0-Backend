@@ -74,6 +74,14 @@ public class Club {
                 .collect(Collectors.toList());
     }
 
+    public List<String> getClubMembers() {
+        return this.members.stream()
+                .map(member -> {
+                    return member.getClub().getClubName() + "-" + member.getStudentNumber() + "-" + member.getName();
+                })
+                .collect(Collectors.toList());
+    }
+
     public void changeLeader(User user) {
         this.leader = user;
     }
