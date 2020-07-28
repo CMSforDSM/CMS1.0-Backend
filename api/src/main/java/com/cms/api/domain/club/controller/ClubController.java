@@ -3,10 +3,13 @@ package com.cms.api.domain.club.controller;
 import com.cms.api.domain.club.dto.ClubResponseDto;
 import com.cms.api.domain.club.dto.UpdateClubInfoRequestDto;
 import com.cms.api.domain.club.service.ClubService;
+import com.cms.api.domain.club.service.MemberListService;
+import com.cms.api.domain.club.service.MemberListServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +21,8 @@ public class ClubController {
 
     private final ClubService clubService;
 
+    private final MemberListServiceImpl memberListService;
+
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public String createClub(@RequestBody Map<String, String> clubName) {
@@ -27,6 +32,11 @@ public class ClubController {
     @GetMapping
     public List<ClubResponseDto> getClubs() {
         return clubService.getClubs();
+    }
+
+    @GetMapping("/members")
+    public void getClubMembersList(HttpServletResponse response) {
+        memberListService.getMemberList(response);
     }
 
     @GetMapping("/{club_name}")
