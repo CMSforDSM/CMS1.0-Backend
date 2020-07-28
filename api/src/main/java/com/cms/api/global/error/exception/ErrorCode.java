@@ -24,6 +24,7 @@ public enum ErrorCode {
     INVALID_APPLICATION(400, "C007", "Application Invalid"),
     NOT_ALLOW_DELETE_APPLICATION(403, "C008", "Not Allow Delete Application"),
     ALREADY_APPLY(409, "C009", "Already Applied"),
+    CANNOT_GENERATE_EXCEL(500, "C010", "Cannot Generate Excel File"),
 
     // Post
     POST_NOT_FOUND(400, "P001", "Post Not Found"),
