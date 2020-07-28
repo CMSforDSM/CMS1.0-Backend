@@ -25,8 +25,11 @@ public class MemberListServiceImpl implements MemberListService {
     @Transactional
     public void getMemberList(HttpServletResponse response) {
         XSSFWorkbook wb = new XSSFWorkbook();
+        Sheet sheet = wb.createSheet("전공동아리 명단");
+        int[] columnLen = {2, 1, 1, 1, 1};
 
-        inputTitle(wb);
+        int rowIdx = inputTitle(wb, sheet, columnLen);
+        inputMembers(getMembers(), rowIdx, sheet, columnLen);
 
         try {
             response.setHeader("Content-Disposition", String.format("attachment; filename=\"test.xlsx\""));
@@ -40,20 +43,19 @@ public class MemberListServiceImpl implements MemberListService {
         }
     }
 
-    private void inputTitle(XSSFWorkbook wb) {
-        Sheet sheet = wb.createSheet("전공동아리 명단");
-
+    private int inputTitle(XSSFWorkbook wb, Sheet sheet, int[] titleLen) {
         int rowIdx = 0;
         Row row = sheet.createRow(rowIdx++);
         Cell cell = null;
 
-        String[] title = {"동아리", "학번", "이름", "출석여부"};
-        int[] titleLen = {2, 1, 2, 3};
+        String[] title = {"동아리", "학번", "이름", "출석여부", "비고"};
 
         for(int i = 0, j=0; j< title.length; i+=titleLen[j], j++) {
             cell = row.createCell(i);
             cell.setCellValue(title[j]);
         }
+
+        return rowIdx;
     }
 
     private List<ClubMemberResponseDto> getMembers() {
@@ -66,5 +68,25 @@ public class MemberListServiceImpl implements MemberListService {
                         .name(member.split("-")[2])
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    private void inputMembers(List<ClubMemberResponseDto> members, int rowIdx, Sheet sheet, int[] elementLen) {
+        for(ClubMemberResponseDto member : members) {
+            Row row = sheet.createRow(rowIdx++);
+            int cellIdx = 0;
+            int elementCount = 0;
+
+            Cell cell = row.createCell(cellIdx);
+            cell.setCellValue(member.getClub_name());
+            cellIdx += elementLen[elementCount];
+            elementCount++;
+
+            cell = row.createCell(cellIdx);
+            cell.setCellValue(member.getStudent_no());
+            cellIdx += elementLen[elementCount];
+
+            cell = row.createCell(cellIdx);
+            cell.setCellValue(member.getName());
+        }
     }
 }
