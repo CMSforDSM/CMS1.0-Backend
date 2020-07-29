@@ -25,10 +25,10 @@ public class MemberListServiceImpl implements MemberListService {
     public void getMemberList(HttpServletResponse response) {
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet("전공동아리 명단");
-        int[] columnLen = {2, 1, 1, 1, 1};
 
-        int rowIdx = inputTitle(wb, sheet, columnLen);
-        inputMembers(getMembers(), rowIdx, sheet, columnLen, wb);
+        setColumnWidth(sheet);
+        int rowIdx = inputTitle(sheet);
+        inputMembers(getMembers(), rowIdx, sheet, wb);
 
         try {
             response.setHeader("Content-Disposition", String.format("attachment; filename=\"test.xlsx\""));
@@ -42,16 +42,16 @@ public class MemberListServiceImpl implements MemberListService {
         }
     }
 
-    private int inputTitle(XSSFWorkbook wb, Sheet sheet, int[] titleLen) {
+    private int inputTitle(Sheet sheet) {
         int rowIdx = 0;
         Row row = sheet.createRow(rowIdx++);
         Cell cell = null;
 
-        String[] title = {"동아리", "학번", "이름", "출석여부", "비고"};
+        String[] title = {"", "동아리", "학번", "이름", "출석여부", "비고"};
 
-        for(int i = 0, j=0; j< title.length; i+=titleLen[j], j++) {
+        for(int i = 0; i < title.length; i++) {
             cell = row.createCell(i);
-            cell.setCellValue(title[j]);
+            cell.setCellValue(title[i]);
         }
 
         return rowIdx;
@@ -70,68 +70,66 @@ public class MemberListServiceImpl implements MemberListService {
                 .collect(Collectors.toList());
     }
 
-    private void inputMembers(List<ClubMemberResponseDto> members, int rowIdx, Sheet sheet, int[] elementLen,
-                              XSSFWorkbook wb) {
+    private void inputMembers(List<ClubMemberResponseDto> members, int rowIdx, Sheet sheet, XSSFWorkbook wb) {
+        int memberCount = 1;
         for(ClubMemberResponseDto member : members) {
             Row row = sheet.createRow(rowIdx++);
             int cellIdx = 0;
-            int elementCount = 0;
 
             Cell cell = row.createCell(cellIdx);
+            cell.setCellValue(memberCount++);
+            cell.setCellStyle(cellStyle(wb, false));
+            cellIdx++;
+
+            cell = row.createCell(cellIdx);
             cell.setCellValue(member.getClub_name());
-            cell.setCellStyle(cellStyle(wb, "left"));
-            cell = row.createCell(cellIdx+1);
-            cell.setCellStyle(cellStyle(wb, ""));
-            cellIdx += elementLen[elementCount];
-            elementCount++;
+            cell.setCellStyle(cellStyle(wb, false));
+            cellIdx ++;
 
             cell = row.createCell(cellIdx);
             cell.setCellValue(member.getStudent_no());
-            cell.setCellStyle(cellStyle(wb, ""));
-            cellIdx += elementLen[elementCount];
+            cell.setCellStyle(cellStyle(wb, false));
+            cellIdx ++;
 
             cell = row.createCell(cellIdx);
             cell.setCellValue(member.getName());
+            cell.setCellStyle(cellStyle(wb, false));
             if(member.getName().equals(member.getLeader()))
-                cell.setCellStyle(cellStyle(wb, "leader"));
-            cellIdx += elementLen[elementCount];
+                cell.setCellStyle(cellStyle(wb, true));
+            cellIdx ++;
 
             cell = row.createCell(cellIdx);
-            cell.setCellStyle(cellStyle(wb, "middle"));
-            cellIdx += elementLen[elementCount];
+            cell.setCellStyle(cellStyle(wb, false));
+            cellIdx ++;
 
             cell = row.createCell(cellIdx);
-            cell.setCellStyle(cellStyle(wb, "left"));
-            cell = row.createCell(cellIdx+1);
-            cell.setCellStyle(cellStyle(wb, ""));
-            cell = row.createCell(cellIdx+2);
-            cell.setCellStyle(cellStyle(wb, "right"));
+            cell.setCellStyle(cellStyle(wb, false));
         }
     }
 
-    private static CellStyle cellStyle(XSSFWorkbook wb, String kind) {
+    private static CellStyle cellStyle(XSSFWorkbook wb, boolean isLeader) {
         CellStyle cellStyle = wb.createCellStyle();
+
+        Font font = wb.createFont();
+        font.setFontHeightInPoints((short) 10);
+        cellStyle.setFont(font);
 
         cellStyle.setBorderBottom(BorderStyle.THIN);
         cellStyle.setBorderTop(BorderStyle.THIN);
+        cellStyle.setBorderLeft(BorderStyle.THIN);
+        cellStyle.setBorderRight(BorderStyle.THIN);
 
-        switch (kind) {
-            case "leader":
-                cellStyle.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
-                cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-                break;
-            case "left":
-                cellStyle.setBorderLeft(BorderStyle.THIN);
-                break;
-            case "right":
-                cellStyle.setBorderRight(BorderStyle.THIN);
-                break;
-            case "middle":
-                cellStyle.setBorderLeft(BorderStyle.THIN);
-                cellStyle.setBorderRight(BorderStyle.THIN);
+        if(isLeader) {
+            cellStyle.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+            cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         }
 
         return cellStyle;
+    }
+
+    private static void setColumnWidth(Sheet sheet) {
+        sheet.setColumnWidth(0, 3 * 256);
+        sheet.setColumnWidth(1, 15 * 256);
     }
 
 }
