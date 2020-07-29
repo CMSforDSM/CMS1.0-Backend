@@ -47,7 +47,7 @@ public class MemberListServiceImpl implements MemberListService {
         Row row = sheet.createRow(rowIdx++);
         Cell cell = null;
 
-        String[] title = {"", "동아리", "학번", "이름", "출석여부", "비고"};
+        String[] title = {"", "동아리", "학번", "이름", "비고", "7교시", "8교시", "9교시", "10교시"};
 
         for(int i = 0; i < title.length; i++) {
             cell = row.createCell(i);
@@ -76,35 +76,41 @@ public class MemberListServiceImpl implements MemberListService {
             Row row = sheet.createRow(rowIdx++);
             int cellIdx = 0;
 
-            Cell cell = row.createCell(cellIdx);
-            cell.setCellValue(memberCount++);
-            cell.setCellStyle(cellStyle(wb, false));
-            cellIdx++;
-
-            cell = row.createCell(cellIdx);
-            cell.setCellValue(member.getClub_name());
-            cell.setCellStyle(cellStyle(wb, false));
-            cellIdx ++;
-
-            cell = row.createCell(cellIdx);
-            cell.setCellValue(member.getStudent_no());
-            cell.setCellStyle(cellStyle(wb, false));
-            cellIdx ++;
-
-            cell = row.createCell(cellIdx);
-            cell.setCellValue(member.getName());
-            cell.setCellStyle(cellStyle(wb, false));
+            boolean isLeader = false;
             if(member.getName().equals(member.getLeader()))
+                isLeader = true;
+
+            Cell cell = createDefaultCell(row, cellIdx++, wb);
+            cell.setCellValue(memberCount++);
+
+            cell = createDefaultCell(row, cellIdx++, wb);
+            cell.setCellValue(member.getClub_name());
+
+            cell = createDefaultCell(row, cellIdx++, wb);
+            cell.setCellValue(member.getStudent_no());
+
+            cell = createDefaultCell(row, cellIdx++, wb);
+            cell.setCellValue(member.getName());
+            if(isLeader)
                 cell.setCellStyle(cellStyle(wb, true));
-            cellIdx ++;
 
-            cell = row.createCell(cellIdx);
+            cell = createDefaultCell(row, cellIdx++, wb);
             cell.setCellStyle(cellStyle(wb, false));
-            cellIdx ++;
+            if(isLeader)
+                cell.setCellValue("동아리장");
 
-            cell = row.createCell(cellIdx);
-            cell.setCellStyle(cellStyle(wb, false));
+            createDefaultCell(row, cellIdx++, wb);
+            createDefaultCell(row, cellIdx++, wb);
+            createDefaultCell(row, cellIdx++, wb);
+            createDefaultCell(row, cellIdx, wb);
+
         }
+    }
+
+    private static Cell createDefaultCell(Row row, int cellIdx, XSSFWorkbook wb) {
+        Cell cell = row.createCell(cellIdx);
+        cell.setCellStyle(cellStyle(wb, false));
+        return cell;
     }
 
     private static CellStyle cellStyle(XSSFWorkbook wb, boolean isLeader) {
